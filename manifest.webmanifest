@@ -1,0 +1,17 @@
+{
+  "id": "./?app=mlshs-aural-y7",
+  "name": "MOUNT LAWLEY SHS - Year 7 Music Aural Blitz",
+  "short_name": "Y7 Aural Blitz",
+  "description": "Year 7 Music aural training mapped to the WA curriculum: pulse and metre, rhythm patterns, steps and leaps, melody patterns, scales, tonality, chords, chord changes, texture, form, dynamics, tempo, timbre and devices — defaults follow Year 7, each section opens up to Year 10.",
+  "start_url": "./?app=mlshs-aural-y7",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#1b1a18",
+  "theme_color": "#1b1a18",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
