@@ -110,13 +110,14 @@ const UNITS=[
    <li>Tap a note value (or Rest), then tap the stave to write it at the cursor. ✕ removes a note. Check when the bars are full.</li>
    <li>Year 7 uses semibreves, minims, crotchets, quaver pairs and four semiquavers (plus dotted crotchets and three quavers in 6/8). ⚙ opens up dotted notes, ties, anacrusis, syncopation and more for Years 8–10.</li></ul>`,
   cfg:[ G('metres','Time signatures',METRE_ITEMS.map(m=>m.id==='6/8'?Y('6/8','6/8',8):m)), SG('bars','Length',[{id:'1',label:'1 bar'},{id:'2',label:'2 bars'},{id:'4',label:'4 bars'}],{7:'2',9:'4'}),
-        G('vocab','Rhythm vocabulary',RHYTHM_VOCAB), SG('swing','Feel',[{id:'off',label:'Straight'},{id:'on',label:'Swing (Year 9)'}],'off') ],
+        G('vocab','Rhythm vocabulary',RHYTHM_VOCAB), SG('source','Dictate',[{id:'pitch',label:'Rhythm only (one pitch)'},{id:'melody',label:'Rhythm of a melody'}],'pitch'), SG('swing','Feel',[{id:'off',label:'Straight'},{id:'on',label:'Swing (Year 9)'}],'off') ],
   gen(ctx){const bars=parseInt(ctx.cfg('bars'),10)||2,v=ctx.cfg('vocab'),metre=A_pick(ctx.cfg('metres'));
     const compound=['6/8','9/8','12/8'].indexOf(metre)>=0,swing=!compound&&ctx.cfg('swing')==='on';
     const vo=vocabFrom(v); if(swing)vo.triplets=false;
-    const dict=ENGRAVE.buildDictation(Object.assign({diff:ctx.diff,bars,metre},vo));
-    const MID=34; dict.notes.forEach(n=>{ if(!n.rest)n.midi=74; n.d=MID; n.acc=''; n.letter='B'; }); dict.ks=0;
-    return {kind:'rhythmdict',dict,rhythmOnly:true,swing,given:1,multiPlay:true,scaleName:metre+(dict.pickup?' · starts with an upbeat (anacrusis)':''),
+    const ofMel=ctx.cfg('source')==='melody';
+    const dict=ENGRAVE.buildDictation(Object.assign({diff:ctx.diff,bars,metre,maxKs:maxKsFor(ctx.year)},vo));
+    const MID=34; dict.notes.forEach(n=>{ if(!ofMel&&!n.rest)n.midi=74; n.d=MID; n.acc=''; n.letter='B'; }); dict.ks=0;
+    return {kind:'rhythmdict',dict,rhythmOnly:true,swing,given:1,multiPlay:true,scaleName:metre+(dict.pickup?' · starts with an upbeat (anacrusis)':'')+(ofMel?' · rhythm of a '+dict.scaleName+' melody':''),
       prompt:'Notate the rhythm you hear in '+metre+(swing?' (swing)':''),why:(compound?'Compound time — each beat is a dotted crotchet that splits into three quavers.':'Simple time — each beat splits into two quavers.')+' Count the beats first, then the splits.'};}},
 
  {name:'Steps & leaps', key:'ivl', ask:'Listen — how does the melody move?', canNotate:true,

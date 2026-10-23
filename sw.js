@@ -2,7 +2,7 @@
 // Caches are namespaced with PREFIX so this app never clears another app's cache
 // on the shared github.io origin.
 const PREFIX = 'blitz-aural-y7-';
-const VERSION = PREFIX + "v2";
+const VERSION = PREFIX + "v3";
 const ASSETS = [
   './',
   './index.html',
